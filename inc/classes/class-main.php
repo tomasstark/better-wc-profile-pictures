@@ -11,9 +11,11 @@ class Main {
 	public function hook() {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
-		if ( \BWCPP\Helpers\is_woocommerce() ) {
+		if ( ! \BWCPP\Helpers\is_woocommerce() ) {
 			return;
 		}
+
+		require_once( get_inc_dir() . '/classes/class-my-account.php' );
 
 		add_action( 'init', array( $this, 'register_post_type' ) );
 	}
