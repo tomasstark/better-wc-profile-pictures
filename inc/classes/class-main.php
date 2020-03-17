@@ -9,8 +9,13 @@ class Main {
 	}
 
 	public function hook() {
-		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+
+		if ( \BWCPP\Helpers\is_woocommerce() ) {
+			return;
+		}
+
+		add_action( 'init', array( $this, 'register_post_type' ) );
 	}
 
 	public function register_post_type() {
