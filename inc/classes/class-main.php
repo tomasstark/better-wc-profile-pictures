@@ -10,6 +10,7 @@ class Main {
 
 	public function hook() {
 		add_action( 'init', array( $this, 'register_post_type' ) );
+		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 	}
 
 	public function register_post_type() {
@@ -31,6 +32,23 @@ class Main {
 		);
 
 		register_post_type( $this->post_type, $args );
+	}
+
+	public function admin_notices() {
+		if ( ! \BWCPP\Helpers\is_woocommerce() ) {
+			?>
+			<div class="notice notice-warning">
+				<p>
+					<?php
+					printf(
+						__( 'Better WooCommerce Profile Pictures requires WooCommerce plugin to be activated. Please <a href="%s">activate WooCommerce</a>.', BWCPP_TEXT_DOMAIN ),
+						\plugins_url(),
+					);
+					?>
+				</p>
+			</div>
+			<?php
+		}
 	}
 
 }
