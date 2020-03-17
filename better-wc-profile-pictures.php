@@ -19,10 +19,18 @@ function get_inc_dir() {
 }
 
 function activate() {
+	flush_rewrite_rules();
+
 	do_action( 'bwcpp_activate' );
 }
 
 register_activation_hook( __FILE__, '\BWCPP\activate' );
+
+function deactivate() {
+	flush_rewrite_rules();
+}
+
+register_deactivation_hook( __FILE__, '\BWCPP\deactivate' );
 
 function initialize() {
 	require_once( get_inc_dir() . '/helpers.php' );
