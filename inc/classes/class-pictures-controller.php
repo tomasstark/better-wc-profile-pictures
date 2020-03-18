@@ -17,6 +17,7 @@ class Pictures_Controller {
 		$overrides = array(
 			'test_form' => false,
 			'test_type' => true,
+			'unique_filename_callback' => '\BWCPP\Helpers\get_unique_filename',
 		);
 
 		foreach ( $files['name'] as $key => $name ) {
