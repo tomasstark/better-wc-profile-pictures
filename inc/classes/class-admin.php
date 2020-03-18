@@ -210,7 +210,7 @@ class Admin {
 
 			<?php $picture = wp_get_attachment_image_src( $profile_picture ); ?>
 			<img src="<?php echo $picture[0]; ?>" alt="" width="100%">
-			<a href="<?php echo get_edit_user_link( $order->get_user_id() ); ?>" target="_blank"><?php _e( 'View user profile', 'bwcpp' ); ?></a>
+			<a href="<?php echo get_edit_user_link( $order->get_user_id() ); ?>"><?php _e( 'View user profile', 'bwcpp' ); ?> &rarr;</a>
 
 		<?php else : ?>
 
