@@ -12,6 +12,7 @@ class Pictures_Controller {
 
 		$all_pictures   = $user_pictures->get_pictures();
 		$pictures_count = count( $all_pictures );
+		$pictures_limit = (int) self::get_pictures_limit();
 
 		$overrides = array(
 			'test_form' => false,
@@ -21,6 +22,10 @@ class Pictures_Controller {
 		foreach ( $files['name'] as $key => $name ) {
 			if ( empty( $name ) ) {
 				continue;
+			}
+
+			if ( 0 !== $pictures_limit && $pictures_count >= $pictures_limit ) {
+				return new \WP_Error( 'file_limit_reached', __( 'Sorry! You\'ve reached the maximum number of allowed profile pictures.', BWCPP_TEXT_DOMAIN ) );
 			}
 
 			$file = array(
@@ -98,6 +103,10 @@ class Pictures_Controller {
 		}
 
 		\update_post_meta( $picture_id, self::$attachment_meta_key, $user_id );
+	}
+
+	public static function get_pictures_limit() {
+		return \get_option( Main::$limit_pictures_option_name );
 	}
 
 }

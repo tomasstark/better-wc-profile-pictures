@@ -57,7 +57,11 @@ class My_Account {
 			$upload = Pictures_Controller::handle_upload( $picture_files, $user_pictures );
 		}
 
-		\wc_add_notice( __( 'Pictures saved successfully.', BWCP_TEXT_DOMAIN ) );
+		if ( \is_wp_error( $upload ) ) {
+			\wc_add_notice( $upload->get_error_message(), 'error' );
+		} else {
+			\wc_add_notice( __( 'Pictures saved successfully.', BWCP_TEXT_DOMAIN ) );
+		}
 
 		\wp_safe_redirect( \wc_get_page_permalink( 'myaccount' ) . '/profile-pictures' );
 		exit();
