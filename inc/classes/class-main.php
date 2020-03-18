@@ -1,20 +1,52 @@
 <?php
+/**
+ * Main class file.
+ *
+ * @package bwcpp
+ */
 namespace BWCPP;
 
+/**
+ * Main class.
+ *
+ * Handles requiring other classes and handling general hooks that don't fit elsewhere.
+ */
 class Main {
+	/**
+	 * WordPress option name for number of maximum pictures allowed per user.
+	 *
+	 * @var string Option name.
+	 */
 	public static $limit_pictures_option_name = 'bwcpp_max_pictures_per_user';
 
+	/**
+	 * Base part of REST route for all routes registered in this plugin.
+	 *
+	 * @var string Base route.
+	 */
 	public $rest_route_base = '/bwcpp/v1';
 
 	public function __construct() {
 		$this->hook();
 	}
 
+	/**
+	 * Hooks to WordPress.
+	 */
 	public function hook() {
+		/**
+		 * Only require admin class if we're in admin.
+		 *
+		 * We're requiring this earlier because admin class handles notice display in case
+		 * WooCommerce is not activated.
+		 */
 		if ( is_admin() ) {
 			require_once( get_inc_dir() . '/classes/class-admin.php' );
 		}
 
+		/**
+		 * If WooCommerce is not activated, do not proceed including other classes.
+		 */
 		if ( ! \BWCPP\Helpers\is_woocommerce() ) {
 			return;
 		}
@@ -29,13 +61,33 @@ class Main {
 		require_once( get_inc_dir() . '/classes/class-my-account.php' );
 	}
 
+	/**
+	 * Adds user's primary picture ID at the time of order to order meta.
+	 *
+	 * @hooked action `woocommerce_thankyou`
+	 *
+	 * @return void
+	 */
 	public function add_image_info_to_order( $order_id ) {
 		$user_pictures = new User_Pictures();
-		$picture_id = $user_pictures->get_primary();
+		$picture_id    = $user_pictures->get_primary();
 
 		add_post_meta( $order_id, '_bwcpp_picture_id', $picture_id );
 	}
 
+	/**
+	 * Modifies `get_avatar` to return user's primary picture instead of default if available.
+	 *
+	 * @param $avatar      Current avatar we're about to modify.
+	 * @param $id_or_email Either user ID or email address.
+	 * @param $size        Avatar's desired size.
+	 * @param $default     Default avatar.
+	 * @param $alt         Alt text.
+	 *
+	 * @hooked filter `get_avatar`
+	 *
+	 * @return string Avatar's <img> tag.
+	 */
 	public function get_avatar( $avatar, $id_or_email, $size, $default, $alt ) {
 		$user = null;
 
@@ -74,6 +126,13 @@ class Main {
 		return $avatar;
 	}
 
+	/**
+	 * Adds REST API route for listing all pictures.
+	 *
+	 * @hooked action `rest_api_init`
+	 *
+	 * @return void
+	 */
 	public function add_rest_route() {
 		\register_rest_route(
 			$this->rest_route_base,
@@ -85,12 +144,32 @@ class Main {
 		);
 	}
 
+	/**
+	 * Callback function for REST API endpoint.
+	 *
+	 * @return string
+	 */
 	public function rest_get_pictures() {
+		/**
+		 * Calls `Pictures_Controller` to get all pictures by all users.
+		 */
 		$pictures = Pictures_Controller::get_pictures();
 
+		/**
+		 * Returns through `rest_ensure_response` for properly formatted response.
+		 */
 		return rest_ensure_response( $pictures );
 	}
 
+	/**
+	 * Restricts `pictures` REST route to logged in users only. Throws error if not logged in.
+	 *
+	 * @param $result State of the restriction.
+	 *
+	 * @hooked filter `rest_authentication_errors`
+	 *
+	 * @return WP_Error|null Returns null on successful authentication, WP_Error if not logged in.
+	 */
 	public function rest_restrict_route( $result ) {
 		if ( strpos( $_SERVER['REQUEST_URI'], "{$this->rest_route_base}/pictures" ) ) {
 			if ( ! is_user_logged_in() ) {
