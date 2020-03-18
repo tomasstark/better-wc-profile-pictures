@@ -196,20 +196,21 @@ class Admin {
 
 		$order           = \wc_get_order( $post_id );
 		$profile_picture = \get_post_meta( $post_id, '_bwcpp_picture_id', true );
+		?>
 
-		if ( ! empty( $profile_picture ) ) {
-			$picture = wp_get_attachment_image_src( $profile_picture );
+		<?php if ( ! empty( $profile_picture ) ) : ?>
 
-			?>
+			<?php $picture = wp_get_attachment_image_src( $profile_picture ); ?>
 			<img src="<?php echo $picture[0]; ?>" alt="" width="100%">
+			<a href="<?php echo get_edit_user_link( $order->get_user_id() ); ?>" target="_blank"><?php _e( 'View user profile', BWCPP_TEXT_DOMAIN ); ?></a>
 
-			<a href="<?php echo get_edit_user_link( $order->get_user_id() ); ?>">View user profile</a>
-			<?php
-		} else {
-			?>
-			No image
-			<?php
-		}
+		<?php else : ?>
+
+			<?php _e( 'User didn\'t upload any image.', BWCPP_TEXT_DOMAIN ); ?>
+
+		<?php endif; ?>
+
+		<?php
 	}
 
 }
