@@ -210,12 +210,15 @@ class Admin {
 
 			<?php $picture = wp_get_attachment_image_src( $profile_picture ); ?>
 			<img src="<?php echo $picture[0]; ?>" alt="" width="100%">
-			<a href="<?php echo get_edit_user_link( $order->get_user_id() ); ?>"><?php _e( 'View user profile', 'bwcpp' ); ?> &rarr;</a>
 
 		<?php else : ?>
 
 			<?php _e( 'User didn\'t upload any image.', 'bwcpp' ); ?>
 
+		<?php endif; ?>
+
+		<?php if ( $order->get_user_id() ) : ?>
+			<a href="<?php echo get_edit_user_link( $order->get_user_id() ); ?>"><?php _e( 'View customer profile', 'bwcpp' ); ?> &rarr;</a>
 		<?php endif; ?>
 
 		<?php
