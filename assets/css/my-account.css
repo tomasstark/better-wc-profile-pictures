@@ -1,0 +1,33 @@
+.bwcpp-my-account fieldset {
+	margin-bottom: 25px;
+}
+
+.bwcpp-pictures {
+	display: flex;
+	flex-flow: row wrap;
+	margin-bottom: 50px;
+}
+
+.bwcpp-pictures label {
+	padding: 0 1px;
+}
+
+.bwcpp-pictures input[type=radio] {
+	position: absolute;
+	border: 0;
+	clip: rect(0 0 0 0);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+}
+
+.bwcpp-pictures img {
+	width: 80px;
+	border: 3px solid transparent;
+}
+
+.bwcpp-pictures input[type=radio]:checked + img {
+	border: 3px solid red;
+}
