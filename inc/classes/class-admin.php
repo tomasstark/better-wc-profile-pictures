@@ -67,6 +67,7 @@ class Admin {
 			array(
 				'label_for' => Main::$limit_pictures_option_name,
 				'id' => Main::$limit_pictures_option_name,
+				'description' => __( 'Enter 0 for unlimited.', BWCPP_TEXT_DOMAIN ),
 			)
 		);
 	}
