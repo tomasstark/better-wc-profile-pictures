@@ -4,6 +4,7 @@
  *
  * @package bwcpp
  */
+
 namespace BWCPP;
 
 /**
@@ -85,6 +86,8 @@ class User_Pictures {
 
 	/**
 	 * Mark ownership of picture.
+	 *
+	 * @param int $picture_id Attachment ID.
 	 *
 	 * Calls `assign_picture_to_user` of `Pictures_Controller` instance.
 	 */

@@ -34,6 +34,9 @@ class My_Account {
 	 */
 	public $save_pictures_nonce = 'save-profile-pictures-nonce';
 
+	/**
+	 * Class constructor. Used for hooks to WP.
+	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'add_endpoint' ) );
 		add_action( "woocommerce_account_{$this->my_account_endpoint}_endpoint", array( $this, 'handle_endpoint' ) );
@@ -55,6 +58,8 @@ class My_Account {
 
 	/**
 	 * Adds menu link to WooCommerce My Account menu.
+	 *
+	 * @param array $links Array of menu links.
 	 *
 	 * @hooked filter `woocommerce_account_menu_items`
 	 *
@@ -95,14 +100,14 @@ class My_Account {
 		/**
 		 * Return early if no nonce is present.
 		 */
-		if ( ! isset( $_POST[$this->save_pictures_nonce] ) ) {
+		if ( ! isset( $_POST[ $this->save_pictures_nonce ] ) ) {
 			return;
 		}
 
 		/**
 		 * Return early if nonce verification failed.
 		 */
-		if ( ! \wp_verify_nonce( $_POST[$this->save_pictures_nonce], $this->save_pictures_action ) ) {
+		if ( ! \wp_verify_nonce( $_POST[ $this->save_pictures_nonce ], $this->save_pictures_action ) ) {
 			return;
 		}
 
@@ -134,7 +139,7 @@ class My_Account {
 			/**
 			 * On success, show success notice.
 			 */
-			\wc_add_notice( __( 'Pictures saved successfully.', BWCP_TEXT_DOMAIN ) );
+			\wc_add_notice( __( 'Pictures saved successfully.', 'bwcpp' ) );
 		}
 
 		/**

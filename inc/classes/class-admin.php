@@ -11,6 +11,9 @@ namespace BWCPP;
  * Admin class for all hooks related to admin screen.
  */
 class Admin {
+	/**
+	 * Class constructor. Hooks to WordPress.
+	 */
 	public function __construct() {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_order_meta_box' ) );
@@ -22,6 +25,8 @@ class Admin {
 	/**
 	 * Displays new section with all user's profile pictures
 	 * on Edit Profile screen in admin.
+	 *
+	 * @param int $profileuser User ID.
 	 *
 	 * @hooked action `edit_user_profile`
 	 *
@@ -41,7 +46,7 @@ class Admin {
 					<th><?php _e( 'Uploaded Profile Pictures', 'bwcpp' ); ?></th>
 					<td>
 						<?php foreach ( $pictures as $picture ) : ?>
-							<img src="<?php echo $picture['url']; ?>" width="96" style="margin-right: 5px;<?php echo ( $picture['id'] == $primary_picture_id ) ? ' border: 3px solid red;' : ''; ?>">
+							<img src="<?php echo $picture['url']; ?>" width="96" style="margin-right: 5px;<?php echo ( $picture['id'] === $primary_picture_id ) ? ' border: 3px solid red;' : ''; ?>">
 						<?php endforeach; ?>
 					</td>
 				</tr>
@@ -67,6 +72,7 @@ class Admin {
 				<p>
 					<?php
 					printf(
+						/* translators: %s is replaced with URL to Plugins admin screen */
 						__( 'Better WooCommerce Profile Pictures requires WooCommerce plugin to be activated. Please <a href="%s">activate WooCommerce</a>.', 'bwcpp' ),
 						\plugins_url(),
 					);
@@ -148,8 +154,8 @@ class Admin {
 			'bwcpp_settings',
 			'bwcpp_settings_general',
 			array(
-				'label_for' => Main::$limit_pictures_option_name,
-				'id' => Main::$limit_pictures_option_name,
+				'label_for'   => Main::$limit_pictures_option_name,
+				'id'          => Main::$limit_pictures_option_name,
 				'description' => __( 'Enter 0 for unlimited.', 'bwcpp' ),
 			)
 		);
@@ -157,6 +163,8 @@ class Admin {
 
 	/**
 	 * Callback for `add_settings_field` to render markup for added setting.
+	 *
+	 * @param array $options Array of additional options passed in `add_settings_field`.
 	 *
 	 * @return void
 	 */

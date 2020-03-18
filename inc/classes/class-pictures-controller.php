@@ -46,7 +46,7 @@ class Pictures_Controller {
 		/**
 		 * Get all pictures.
 		 */
-		$all_pictures   = $user_pictures->get_pictures();
+		$all_pictures = $user_pictures->get_pictures();
 
 		/**
 		 * Get total count of pictures.
@@ -95,11 +95,11 @@ class Pictures_Controller {
 			 * Form an array for each file.
 			 */
 			$file = array(
-				'name'     => $files['name'][$key],
-				'type'     => $files['type'][$key],
-				'tmp_name' => $files['tmp_name'][$key],
-				'error'    => $files['error'][$key],
-				'size'     => $files['size'][$key],
+				'name'     => $files['name'][ $key ],
+				'type'     => $files['type'][ $key ],
+				'tmp_name' => $files['tmp_name'][ $key ],
+				'error'    => $files['error'][ $key ],
+				'size'     => $files['size'][ $key ],
 			);
 
 			$upload        = \wp_handle_upload( $file, $overrides );
@@ -115,7 +115,7 @@ class Pictures_Controller {
 				'post_mime_type' => $filetype['type'],
 				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
 				'post_content'   => '',
-				'post_status'    => 'inherit'
+				'post_status'    => 'inherit',
 			);
 
 			/**
@@ -176,7 +176,7 @@ class Pictures_Controller {
 			$args['meta_query'][] = array(
 				'key'     => self::$attachment_meta_key,
 				'value'   => $user_id,
-				'compare' => '='
+				'compare' => '=',
 			);
 		}
 
@@ -224,7 +224,7 @@ class Pictures_Controller {
 	 *
 	 * @param int $picture_id Attachment ID.
 	 *
-	 * @return void
+	 * @return boolean|void Returns false if ID does not match any attachment or if attachment is not linked to any user.
 	 */
 	public static function remove_picture( $picture_id ) {
 		if ( 'attachment' !== \get_post_type( $picture_id ) ) {

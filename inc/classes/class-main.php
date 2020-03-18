@@ -4,6 +4,7 @@
  *
  * @package bwcpp
  */
+
 namespace BWCPP;
 
 /**
@@ -26,14 +27,10 @@ class Main {
 	 */
 	public $rest_route_base = '/bwcpp/v1';
 
-	public function __construct() {
-		$this->hook();
-	}
-
 	/**
-	 * Hooks to WordPress.
+	 * Class constructor. Hooks to WordPress.
 	 */
-	public function hook() {
+	public function __construct() {
 		/**
 		 * Only require admin class if we're in admin.
 		 *
@@ -64,6 +61,8 @@ class Main {
 	/**
 	 * Adds user's primary picture ID at the time of order to order meta.
 	 *
+	 * @param int $order_id ID of WooCommerce order.
+	 *
 	 * @hooked action `woocommerce_thankyou`
 	 *
 	 * @return void
@@ -78,11 +77,11 @@ class Main {
 	/**
 	 * Modifies `get_avatar` to return user's primary picture instead of default if available.
 	 *
-	 * @param $avatar      Current avatar we're about to modify.
-	 * @param $id_or_email Either user ID or email address.
-	 * @param $size        Avatar's desired size.
-	 * @param $default     Default avatar.
-	 * @param $alt         Alt text.
+	 * @param string     $avatar      Current avatar we're about to modify.
+	 * @param int|string $id_or_email Either user ID or email address.
+	 * @param int        $size        Avatar's desired size.
+	 * @param string     $default     Default avatar.
+	 * @param string     $alt         Alt text.
 	 *
 	 * @hooked filter `get_avatar`
 	 *
@@ -138,7 +137,7 @@ class Main {
 			$this->rest_route_base,
 			'/pictures',
 			array(
-				'methods' => \WP_REST_Server::READABLE,
+				'methods'  => \WP_REST_Server::READABLE,
 				'callback' => array( $this, 'rest_get_pictures' ),
 			)
 		);
@@ -164,11 +163,11 @@ class Main {
 	/**
 	 * Restricts `pictures` REST route to logged in users only. Throws error if not logged in.
 	 *
-	 * @param $result State of the restriction.
+	 * @param WP_Error|null|boolean $result State of the restriction.
 	 *
 	 * @hooked filter `rest_authentication_errors`
 	 *
-	 * @return WP_Error|null Returns null on successful authentication, WP_Error if not logged in.
+	 * @return WP_Error|null|boolean Returns null if authentication not used, WP_Error if not logged in, true on success.
 	 */
 	public function rest_restrict_route( $result ) {
 		if ( strpos( $_SERVER['REQUEST_URI'], "{$this->rest_route_base}/pictures" ) ) {
