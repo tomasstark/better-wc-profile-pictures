@@ -52,10 +52,14 @@ register_activation_hook( __FILE__, '\BWCPP\activate' );
 /**
  * Deactivation hook. Flushing rewrite rules to clean up our rewrites.
  *
+ * Hook `bwcpp_deactivate` allowing to hook custom code on deactivation.
+ *
  * @return void
  */
 function deactivate() {
 	flush_rewrite_rules();
+
+	do_action( 'bwcpp_deactivate' );
 }
 
 register_deactivation_hook( __FILE__, '\BWCPP\deactivate' );
