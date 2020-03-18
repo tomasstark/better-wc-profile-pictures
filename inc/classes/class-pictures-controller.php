@@ -33,7 +33,7 @@ class Pictures_Controller {
 	 * @param array         $files         Array of submitted files. Index of $_FILES global var.
 	 * @param User_Pictures $user_pictures Instance of User_Pictures already initiated with appropriate user ID.
 	 *
-	 * @return WP_Error|boolean On success, returns TRUE. On failure, returns `WP_Error`.
+	 * @return WP_Error|array On success, returns array of attachment IDs. On failure, returns `WP_Error`.
 	 */
 	public static function handle_upload( $files, $user_pictures ) {
 		/**
@@ -66,6 +66,11 @@ class Pictures_Controller {
 			'test_type'                => true,
 			'unique_filename_callback' => '\BWCPP\Helpers\get_unique_filename',
 		);
+
+		/**
+		 * Create an array to be returned by this method on success.
+		 */
+		$attachment_ids = array();
 
 		foreach ( $files['name'] as $key => $name ) {
 			/**
@@ -126,6 +131,11 @@ class Pictures_Controller {
 			}
 
 			/**
+			 * Add to array of IDs to be returned.
+			 */
+			$attachment_ids[] = $attachment_id;
+
+			/**
 			 * Adds meta data to attachment so it's linked to user ID.
 			 */
 			$user_pictures->add_picture( $attachment_id );
@@ -140,7 +150,7 @@ class Pictures_Controller {
 			$pictures_count++;
 		}
 
-		return true;
+		return $attachment_ids;
 	}
 
 	/**
