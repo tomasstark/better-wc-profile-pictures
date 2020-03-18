@@ -110,4 +110,17 @@ class Pictures_Controller {
 		return \get_option( Main::$limit_pictures_option_name );
 	}
 
+
+	public static function remove_picture( $picture_id ) {
+		if ( 'attachment' !== \get_post_type( $picture_id ) ) {
+			return false;
+		}
+
+		if ( ! \metadata_exists( self::$post_type, $picture_id, self::$attachment_meta_key ) ) {
+			return false;
+		}
+
+		\wp_delete_post( $picture_id, true );
+	}
+
 }
