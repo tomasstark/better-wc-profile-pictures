@@ -5,6 +5,7 @@ class Admin {
 	public function __construct() {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_order_meta_box' ) );
+		add_action( 'admin_menu', array( $this, 'add_plugin_settings_page' ) );
 	}
 
 	public function admin_notices() {
@@ -22,6 +23,20 @@ class Admin {
 			</div>
 			<?php
 		}
+	}
+
+	public function add_plugin_settings_page() {
+		add_options_page(
+			__( 'Better WC Profile Pictures', BWCPP_TEXT_DOMAIN ),
+			__( 'Better WC Profile Pictures', BWCPP_TEXT_DOMAIN ),
+			'manage_options',
+			'bwcpp_settings',
+			array( $this, 'render_settings_page' )
+		);
+	}
+
+	public function render_settings_page() {
+		// noop
 	}
 
 	public function add_order_meta_box() {
