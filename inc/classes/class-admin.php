@@ -7,6 +7,30 @@ class Admin {
 		add_action( 'add_meta_boxes', array( $this, 'add_order_meta_box' ) );
 		add_action( 'admin_init', array( $this, 'add_sections' ) );
 		add_action( 'admin_menu', array( $this, 'add_plugin_settings_page' ) );
+		add_action( 'edit_user_profile', array( $this, 'user_profile_pictures' ) );
+	}
+
+	public function user_profile_pictures( $profileuser ) {
+		$user               = new User_Pictures( $profileuser->data->ID );
+		$pictures           = $user->get_pictures();
+		$primary_picture_id = $user->get_primary();
+		?>
+
+		<h2><?php _e( 'Profile Pictures', BWCPP_TEXT_DOMAIN ); ?></h2>
+
+		<table class="form-table" role="presentation">
+			<tbody>
+				<tr>
+					<th><?php _e( 'Uploaded Profile Pictures', BWCPP_TEXT_DOMAIN ); ?></th>
+					<td>
+						<?php foreach ( $pictures as $picture ) : ?>
+							<img src="<?php echo $picture['url']; ?>" width="96" style="margin-right: 5px;<?php echo ( $picture['id'] == $primary_picture_id ) ? ' border: 3px solid red;' : ''; ?>">
+						<?php endforeach; ?>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<?php
 	}
 
 	public function admin_notices() {
