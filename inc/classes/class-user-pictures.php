@@ -28,11 +28,11 @@ class User_Pictures {
 	}
 
 	public function get_pictures() {
-		// noop
+		return Pictures_Controller::get_pictures( $this->user_id );
 	}
 
 	public function add_picture( $picture_id ) {
-		// noop
+		Pictures_Controller::assign_picture_to_user( $picture_id, $this->user_id );
 	}
 
 }
