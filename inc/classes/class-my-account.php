@@ -54,7 +54,7 @@ class My_Account {
 		$user_pictures = new User_Pictures();
 
 		if ( ! empty( $picture_files['name'] ) ) {
-			$upload = Pictures_Controller::handle_upload( $picture_files );
+			$upload = Pictures_Controller::handle_upload( $picture_files, $user_pictures );
 		}
 
 		\wc_add_notice( __( 'Pictures saved successfully.', BWCP_TEXT_DOMAIN ) );
