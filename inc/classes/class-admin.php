@@ -37,7 +37,7 @@ class Admin {
 	}
 
 	public function render_settings_page() {
-		// noop
+		include( get_inc_dir() . '/templates/admin-settings.php' );
 	}
 
 	public function add_sections() {
