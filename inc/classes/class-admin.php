@@ -5,6 +5,7 @@ class Admin {
 	public function __construct() {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_order_meta_box' ) );
+		add_action( 'admin_init', array( $this, 'add_sections' ) );
 		add_action( 'admin_menu', array( $this, 'add_plugin_settings_page' ) );
 	}
 
@@ -37,6 +38,44 @@ class Admin {
 
 	public function render_settings_page() {
 		// noop
+	}
+
+	public function add_sections() {
+		\add_settings_section(
+			'bwcpp_settings_general',
+			'',
+			'',
+			'bwcpp_settings'
+		);
+
+		\register_setting(
+			'bwcpp_settings',
+			Main::$limit_pictures_option_name,
+			array(
+				'type'              => 'integer',
+				'sanitize_callback' => 'intval',
+				'default'           => 20,
+			),
+		);
+
+		\add_settings_field(
+			Main::$limit_pictures_option_name,
+			__( 'Max pictures per user', BWCPP_TEXT_DOMAIN ),
+			array( $this, 'render_max_control' ),
+			'bwcpp_settings',
+			'bwcpp_settings_general',
+			array(
+				'label_for' => Main::$limit_pictures_option_name,
+				'id' => Main::$limit_pictures_option_name,
+			)
+		);
+	}
+
+	public function render_max_control( $options ) {
+		?>
+		<input type="number" name="<?php echo $options['id']; ?>" value="<?php echo get_option( $options['id'] ); ?>" min="0" max="500" required>
+		<p class="description"><?php echo $options['description']; ?></p>
+		<?php
 	}
 
 	public function add_order_meta_box() {
