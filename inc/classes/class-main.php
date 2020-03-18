@@ -16,10 +16,18 @@ class Main {
 		}
 
 		add_filter( 'get_avatar', array( $this, 'get_avatar' ), 10, 5 );
+		add_action( 'woocommerce_thankyou', array( $this, 'add_image_info_to_order' ) );
 
 		require_once( get_inc_dir() . '/classes/class-user-pictures.php' );
 		require_once( get_inc_dir() . '/classes/class-pictures-controller.php' );
 		require_once( get_inc_dir() . '/classes/class-my-account.php' );
+	}
+
+	public function add_image_info_to_order( $order_id ) {
+		$user_pictures = new User_Pictures();
+		$picture_id = $user_pictures->get_primary();
+
+		add_post_meta( $order_id, '_bwcpp_picture_id', $picture_id );
 	}
 
 	public function get_avatar( $avatar, $id_or_email, $size, $default, $alt ) {
