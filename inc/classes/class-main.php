@@ -4,6 +4,8 @@ namespace BWCPP;
 class Main {
 	public static $limit_pictures_option_name = 'bwcpp_max_pictures_per_user';
 
+	public $rest_route_base = '/bwcpp/v1';
+
 	public function __construct() {
 		$this->hook();
 	}
@@ -17,6 +19,7 @@ class Main {
 
 		add_filter( 'get_avatar', array( $this, 'get_avatar' ), 10, 5 );
 		add_action( 'woocommerce_thankyou', array( $this, 'add_image_info_to_order' ) );
+		add_action( 'rest_api_init', array( $this, 'add_rest_route' ) );
 
 		require_once( get_inc_dir() . '/classes/class-user-pictures.php' );
 		require_once( get_inc_dir() . '/classes/class-pictures-controller.php' );
@@ -66,6 +69,23 @@ class Main {
 		);
 
 		return $avatar;
+	}
+
+	public function add_rest_route() {
+		\register_rest_route(
+			$this->rest_route_base,
+			'/pictures',
+			array(
+				'methods' => \WP_REST_Server::READABLE,
+				'callback' => array( $this, 'rest_get_pictures' ),
+			)
+		);
+	}
+
+	public function rest_get_pictures() {
+		$pictures = Pictures_Controller::get_pictures();
+
+		return rest_ensure_response( $pictures );
 	}
 
 }
