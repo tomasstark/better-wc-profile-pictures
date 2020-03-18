@@ -1,1 +1,3 @@
-# wc-profile-pictures
+# Better WooCommerce Profile Pictures
+
+Hey 👋 And welcome!
