@@ -13,7 +13,7 @@ namespace BWCPP\Helpers;
  * @return boolean
  */
 function is_woocommerce() {
-	if ( class_exists( 'woocommerce' ) ){
+	if ( class_exists( 'woocommerce' ) ) {
 		return true;
 	}
 
@@ -22,6 +22,10 @@ function is_woocommerce() {
 
 /**
  * Generates UUID for uploaded file.
+ *
+ * @param string $path File path.
+ * @param string $name File name.
+ * @param string $ext  File ext.
  *
  * @hooked callback `wp_unique_filename`
  *
