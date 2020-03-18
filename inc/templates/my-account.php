@@ -1,8 +1,12 @@
 <?php
 /**
+ * My Account -> Profile Pictures page template.
+ *
  * @package bwcpp
  */
+
 ?>
+
 <form class="woocommerce-EditAccountForm edit-account bwcpp-my-account" action="" method="post" enctype="multipart/form-data">
 	<h3><?php _e( 'Profile Pictures', BWCPP_TEXT_DOMAIN ); ?></h3>
 
