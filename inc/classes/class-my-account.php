@@ -50,8 +50,11 @@ class My_Account {
 
 		$picture_files      = $_FILES['pictures'];
 		$primary_picture_id = (int) $_POST['primary_picture'];
+		$user_pictures      = new User_Pictures();
 
-		$user_pictures = new User_Pictures();
+		if ( ! empty( $primary_picture_id ) ) {
+			$user_pictures->set_primary( $primary_picture_id );
+		}
 
 		if ( ! empty( $picture_files['name'] ) ) {
 			$upload = Pictures_Controller::handle_upload( $picture_files, $user_pictures );
