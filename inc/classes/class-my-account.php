@@ -44,10 +44,6 @@ class My_Account {
 			return;
 		}
 
-		if ( ! isset( $_POST['save_account_details'] ) ) {
-			return;
-		}
-
 		$picture_files      = $_FILES['pictures'];
 		$primary_picture_id = (int) $_POST['primary_picture'];
 		$user_pictures      = new User_Pictures();
