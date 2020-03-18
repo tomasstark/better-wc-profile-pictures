@@ -14,6 +14,10 @@ namespace BWCPP;
 define( 'BWCPP_TEXT_DOMAIN', 'bwcpp' );
 define( 'BWCPP_VERSION', '0.1' );
 
+function get_plugin_url() {
+	return plugin_dir_url( __FILE__ );
+}
+
 function get_inc_dir() {
 	return dirname( __FILE__ ) . '/inc';
 }
