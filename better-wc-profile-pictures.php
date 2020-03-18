@@ -13,7 +13,6 @@
 
 namespace BWCPP;
 
-define( 'BWCPP_TEXT_DOMAIN', 'bwcpp' );
 define( 'BWCPP_VERSION', '0.1' );
 
 /**

@@ -87,7 +87,7 @@ class Pictures_Controller {
 			if ( 0 !== $pictures_limit && $pictures_count >= $pictures_limit ) {
 				return new \WP_Error(
 					'file_limit_reached',
-					__( 'Sorry! You\'ve reached the maximum number of allowed profile pictures.', BWCPP_TEXT_DOMAIN )
+					__( 'Sorry! You\'ve reached the maximum number of allowed profile pictures.', 'bwcpp' )
 				);
 			}
 
@@ -126,7 +126,7 @@ class Pictures_Controller {
 			if ( is_wp_error( $attachment_id ) ) {
 				return new \WP_Error(
 					'creating_attachment_failed',
-					__( 'Sorry! There was something wrong while uploading your pictures. Please try again.', BWCPP_TEXT_DOMAIN )
+					__( 'Sorry! There was something wrong while uploading your pictures. Please try again.', 'bwcpp' )
 				);
 			}
 

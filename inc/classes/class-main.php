@@ -173,7 +173,7 @@ class Main {
 	public function rest_restrict_route( $result ) {
 		if ( strpos( $_SERVER['REQUEST_URI'], "{$this->rest_route_base}/pictures" ) ) {
 			if ( ! is_user_logged_in() ) {
-				$result = new \WP_Error( 'not_logged_in', __( 'You need to be logged in to access this endpoint.', BWCPP_TEXT_DOMAIN ) );
+				$result = new \WP_Error( 'not_logged_in', __( 'You need to be logged in to access this endpoint.', 'bwcpp' ) );
 			}
 		}
 

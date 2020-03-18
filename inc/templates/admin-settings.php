@@ -7,7 +7,7 @@
 
 ?>
 <div class="wrap">
-	<h2><?php _e( 'Better WC Profile Pictures Settings', BWCPP_TEXT_DOMAIN ); ?></h2>
+	<h2><?php _e( 'Better WC Profile Pictures Settings', 'bwcpp' ); ?></h2>
 
 	<form method="post" action="options.php">
 		<?php settings_fields( 'bwcpp_settings' ); ?>

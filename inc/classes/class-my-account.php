@@ -62,7 +62,7 @@ class My_Account {
 	 */
 	public function add_menu_link( $links ) {
 		$profile_pictures_link = array(
-			"{$this->my_account_endpoint}" => __( 'Profile Pictures', BWCPP_TEXT_DOMAIN ),
+			"{$this->my_account_endpoint}" => __( 'Profile Pictures', 'bwcpp' ),
 		);
 
 		/**

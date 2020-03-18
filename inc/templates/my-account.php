@@ -8,7 +8,7 @@
 ?>
 
 <form class="woocommerce-EditAccountForm edit-account bwcpp-my-account" action="" method="post" enctype="multipart/form-data">
-	<h3><?php _e( 'Profile Pictures', BWCPP_TEXT_DOMAIN ); ?></h3>
+	<h3><?php _e( 'Profile Pictures', 'bwcpp' ); ?></h3>
 
 	<?php
 	$user_pictures   = new \BWCPP\User_Pictures();
@@ -17,9 +17,9 @@
 	?>
 
 	<fieldset>
-		<legend><?php _e( 'Choose your primary picture', BWCPP_TEXT_DOMAIN ); ?></legend>
+		<legend><?php _e( 'Choose your primary picture', 'bwcpp' ); ?></legend>
 
-		<p><?php _e( 'Click to choose a picture, then click "Save Changes"', BWCPP_TEXT_DOMAIN ); ?></p>
+		<p><?php _e( 'Click to choose a picture, then click "Save Changes"', 'bwcpp' ); ?></p>
 
 		<div class="bwcpp-pictures">
 			<?php foreach ( $pictures as $picture ) : ?>
@@ -32,10 +32,10 @@
 	</fieldset>
 
 	<fieldset>
-		<legend><?php _e( 'Upload new pictures', BWCPP_TEXT_DOMAIN ); ?></legend>
+		<legend><?php _e( 'Upload new pictures', 'bwcpp' ); ?></legend>
 
 		<p class="woocommerce-form-row form-row form-row-wide">
-			<label for="bwcpp_upload_picture"><?php _e( 'Select pictures from your computer, then click "Save Changes"', BWCPP_TEXT_DOMAIN ); ?></label>
+			<label for="bwcpp_upload_picture"><?php _e( 'Select pictures from your computer, then click "Save Changes"', 'bwcpp' ); ?></label>
 			<input type="file" id="bwcpp_upload_picture" name="pictures[]" multiple accept=".jpg,.png,.jpeg">
 		</p>
 	</fieldset>
@@ -44,6 +44,6 @@
 	<input type="hidden" name="action" value="<?php echo $this->save_pictures_action; ?>">
 
 	<p>
-		<input type="submit" class="woocommerce-Button button" name="bwcpp_save_profile_pictures" value="<?php _e( 'Save Changes', BWCPP_TEXT_DOMAIN ); ?>">
+		<input type="submit" class="woocommerce-Button button" name="bwcpp_save_profile_pictures" value="<?php _e( 'Save Changes', 'bwcpp' ); ?>">
 	</p>
 </form>

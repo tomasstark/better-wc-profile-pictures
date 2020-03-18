@@ -33,12 +33,12 @@ class Admin {
 		$primary_picture_id = $user->get_primary();
 		?>
 
-		<h2><?php _e( 'Profile Pictures', BWCPP_TEXT_DOMAIN ); ?></h2>
+		<h2><?php _e( 'Profile Pictures', 'bwcpp' ); ?></h2>
 
 		<table class="form-table" role="presentation">
 			<tbody>
 				<tr>
-					<th><?php _e( 'Uploaded Profile Pictures', BWCPP_TEXT_DOMAIN ); ?></th>
+					<th><?php _e( 'Uploaded Profile Pictures', 'bwcpp' ); ?></th>
 					<td>
 						<?php foreach ( $pictures as $picture ) : ?>
 							<img src="<?php echo $picture['url']; ?>" width="96" style="margin-right: 5px;<?php echo ( $picture['id'] == $primary_picture_id ) ? ' border: 3px solid red;' : ''; ?>">
@@ -67,7 +67,7 @@ class Admin {
 				<p>
 					<?php
 					printf(
-						__( 'Better WooCommerce Profile Pictures requires WooCommerce plugin to be activated. Please <a href="%s">activate WooCommerce</a>.', BWCPP_TEXT_DOMAIN ),
+						__( 'Better WooCommerce Profile Pictures requires WooCommerce plugin to be activated. Please <a href="%s">activate WooCommerce</a>.', 'bwcpp' ),
 						\plugins_url(),
 					);
 					?>
@@ -86,8 +86,8 @@ class Admin {
 	 */
 	public function add_plugin_settings_page() {
 		add_options_page(
-			__( 'Better WC Profile Pictures', BWCPP_TEXT_DOMAIN ),
-			__( 'Better WC Profile Pictures', BWCPP_TEXT_DOMAIN ),
+			__( 'Better WC Profile Pictures', 'bwcpp' ),
+			__( 'Better WC Profile Pictures', 'bwcpp' ),
 			'manage_options',
 			'bwcpp_settings',
 			array( $this, 'render_settings_page' )
@@ -143,14 +143,14 @@ class Admin {
 		 */
 		\add_settings_field(
 			Main::$limit_pictures_option_name,
-			__( 'Max pictures per user', BWCPP_TEXT_DOMAIN ),
+			__( 'Max pictures per user', 'bwcpp' ),
 			array( $this, 'render_max_control' ),
 			'bwcpp_settings',
 			'bwcpp_settings_general',
 			array(
 				'label_for' => Main::$limit_pictures_option_name,
 				'id' => Main::$limit_pictures_option_name,
-				'description' => __( 'Enter 0 for unlimited.', BWCPP_TEXT_DOMAIN ),
+				'description' => __( 'Enter 0 for unlimited.', 'bwcpp' ),
 			)
 		);
 	}
@@ -177,7 +177,7 @@ class Admin {
 	public function add_order_meta_box() {
 		\add_meta_box(
 			'bwcpp_profile_picture_box',
-			__( 'Profile Picture', BWCPP_TEXT_DOMAIN ),
+			__( 'Profile Picture', 'bwcpp' ),
 			array( $this, 'render_order_meta_box' ),
 			'shop_order',
 			'side',
@@ -202,11 +202,11 @@ class Admin {
 
 			<?php $picture = wp_get_attachment_image_src( $profile_picture ); ?>
 			<img src="<?php echo $picture[0]; ?>" alt="" width="100%">
-			<a href="<?php echo get_edit_user_link( $order->get_user_id() ); ?>" target="_blank"><?php _e( 'View user profile', BWCPP_TEXT_DOMAIN ); ?></a>
+			<a href="<?php echo get_edit_user_link( $order->get_user_id() ); ?>" target="_blank"><?php _e( 'View user profile', 'bwcpp' ); ?></a>
 
 		<?php else : ?>
 
-			<?php _e( 'User didn\'t upload any image.', BWCPP_TEXT_DOMAIN ); ?>
+			<?php _e( 'User didn\'t upload any image.', 'bwcpp' ); ?>
 
 		<?php endif; ?>
 
