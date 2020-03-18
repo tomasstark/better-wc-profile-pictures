@@ -11,7 +11,9 @@ class Main {
 	}
 
 	public function hook() {
-		require_once( get_inc_dir() . '/class/class-admin.php' );
+		if ( is_admin() ) {
+			require_once( get_inc_dir() . '/classes/class-admin.php' );
+		}
 
 		if ( ! \BWCPP\Helpers\is_woocommerce() ) {
 			return;
