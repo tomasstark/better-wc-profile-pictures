@@ -10,6 +10,7 @@ class My_Account {
 		add_action( 'init', array( $this, 'add_endpoint' ) );
 		add_action( "woocommerce_account_{$this->my_account_endpoint}_endpoint", array( $this, 'handle_endpoint' ) );
 		add_filter( 'woocommerce_account_menu_items', array( $this, 'add_menu_link' ) );
+		add_action( 'template_redirect', array( $this, 'handle_form_submit' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 	}
 
@@ -32,6 +33,34 @@ class My_Account {
 
 	public function handle_endpoint() {
 		include( get_inc_dir() . '/templates/my-account.php' );
+	}
+
+	public function handle_form_submit() {
+		if ( ! isset( $_POST[$this->save_pictures_nonce] ) ) {
+			return;
+		}
+
+		if ( ! \wp_verify_nonce( $_POST[$this->save_pictures_nonce], $this->save_pictures_action ) ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['save_account_details'] ) ) {
+			return;
+		}
+
+		$picture_files      = $_FILES['pictures'];
+		$primary_picture_id = (int) $_POST['primary_picture'];
+
+		$user_pictures = new User_Pictures();
+
+		if ( ! empty( $picture_files['name'] ) ) {
+			$upload = Pictures_Controller::handle_upload( $picture_files );
+		}
+
+		\wc_add_notice( __( 'Pictures saved successfully.', BWCP_TEXT_DOMAIN ) );
+
+		\wp_safe_redirect( \wc_get_page_permalink( 'myaccount' ) . '/profile-pictures' );
+		exit();
 	}
 
 	public function enqueue_styles() {

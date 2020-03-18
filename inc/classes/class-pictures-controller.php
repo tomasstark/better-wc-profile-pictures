@@ -5,6 +5,10 @@ class Pictures_Controller {
 	public static $post_type = 'attachment';
 	public static $attachment_meta_key = '_bwcpp_user_id';
 
+	public static function handle_upload( $files ) {
+		// noop
+	}
+
 	public static function get_pictures( $user_id = null ) {
 		$args = array(
 			'post_type'      => 'attachment',
