@@ -20,6 +20,7 @@ class Main {
 		add_filter( 'get_avatar', array( $this, 'get_avatar' ), 10, 5 );
 		add_action( 'woocommerce_thankyou', array( $this, 'add_image_info_to_order' ) );
 		add_action( 'rest_api_init', array( $this, 'add_rest_route' ) );
+		add_filter( 'rest_authentication_errors', array( $this, 'rest_restrict_route' ) );
 
 		require_once( get_inc_dir() . '/classes/class-user-pictures.php' );
 		require_once( get_inc_dir() . '/classes/class-pictures-controller.php' );
@@ -86,6 +87,16 @@ class Main {
 		$pictures = Pictures_Controller::get_pictures();
 
 		return rest_ensure_response( $pictures );
+	}
+
+	public function rest_restrict_route( $result ) {
+		if ( strpos( $_SERVER['REQUEST_URI'], "{$this->rest_route_base}/pictures" ) ) {
+			if ( ! is_user_logged_in() ) {
+				$result = new \WP_Error( 'not_logged_in', __( 'You need to be logged in to access this endpoint.', BWCPP_TEXT_DOMAIN ) );
+			}
+		}
+
+		return $result;
 	}
 
 }
