@@ -52,18 +52,30 @@ class Pictures_Controller {
 		$pictures_limit = (int) self::get_pictures_limit();
 
 		/**
+		 * Only allow image file types
+		 */
+		$allowed_file_types = array(
+			'jpg'   => 'image/jpg',
+			'jpg'   => 'image/jpeg',
+			'jpeg'  => 'image/jpeg',
+			'png'   => 'image/png',
+		);
+
+		/**
 		 * Overrides for `wp_handle_upload` function.
 		 */
 		$overrides = array(
 			'test_form'                => false,
+			'test_size'                => true,
 			'test_type'                => true,
+			'mimes'                    => $allowed_file_types,
 			'unique_filename_callback' => '\BWCPP\Helpers\get_unique_filename',
 		);
 
 		/**
 		 * Create an array to be returned by this method on success.
 		 */
-		$attachment_ids = array();
+		$response = array();
 
 		foreach ( $files['name'] as $key => $name ) {
 			/**
@@ -78,10 +90,14 @@ class Pictures_Controller {
 			 * with limit value and return error if reached.
 			 */
 			if ( 0 !== $pictures_limit && $pictures_count >= $pictures_limit ) {
-				return new \WP_Error(
-					'file_limit_reached',
-					__( 'Sorry! You\'ve reached the maximum number of allowed profile pictures.', 'bwcpp' )
-				);
+				if ( ! isset( $response['limit_reached'] ) ) {
+					$response['limit_reached'] = new \WP_Error(
+						'file_limit_reached',
+						__( 'Some files couldn\'t be uploaded, sorry! You\'ve reached the maximum number of allowed profile pictures.', 'bwcpp' )
+					);
+				}
+
+				continue;
 			}
 
 			/**
@@ -95,7 +111,30 @@ class Pictures_Controller {
 				'size'     => $files['size'][ $key ],
 			);
 
-			$upload        = \wp_handle_upload( $file, $overrides );
+			if ( $file['size'] > 1 * MB_IN_BYTES ) {
+				if ( ! isset( $response['too_big'] ) ) {
+					$response['too_big'] = new \WP_Error(
+						'file_too_big',
+						__( 'Some files couldn\'t be uploaded, sorry! The maximum allowed file size is 1 MB.', 'bwcpp' )
+					);
+				}
+
+				continue;
+			}
+
+			$upload = \wp_handle_upload( $file, $overrides );
+
+			if ( isset( $upload['error'] ) && ! empty( $upload['error'] ) ) {
+				if ( ! isset( $response['wrong_type'] ) ) {
+					$response['wrong_type'] = new \WP_Error(
+						'file_not_permitted',
+						__( 'Some files couldn\'t be uploaded, sorry! The only supported file types are .jpg, .jpeg, and .png.', 'bwcpp' )
+					);
+				}
+
+				continue;
+			}
+
 			$filename      = $upload['file'];
 			$filetype      = \wp_check_filetype( basename( $filename ), null );
 			$wp_upload_dir = \wp_upload_dir();
@@ -113,20 +152,22 @@ class Pictures_Controller {
 
 			/**
 			 * Insert attachment with parent post set to 0 so it doesn't belong to any post.
-			 */
+			*/
 			$attachment_id = \wp_insert_attachment( $attachment, $filename, 0 );
 
 			if ( is_wp_error( $attachment_id ) ) {
-				return new \WP_Error(
+				$response[] = new \WP_Error(
 					'creating_attachment_failed',
-					__( 'Sorry! There was something wrong while uploading your pictures. Please try again.', 'bwcpp' )
+					__( 'Some files couldn\'t be uploaded, sorry! An unexpected error occurred. Please try again.', 'bwcpp' )
 				);
+
+				continue;
 			}
 
 			/**
-			 * Add to array of IDs to be returned.
+			 * Add to response array.
 			 */
-			$attachment_ids[] = $attachment_id;
+			$response[] = $attachment_id;
 
 			/**
 			 * Adds meta data to attachment so it's linked to user ID.
@@ -143,7 +184,7 @@ class Pictures_Controller {
 			$pictures_count++;
 		}
 
-		return $attachment_ids;
+		return $response;
 	}
 
 	/**

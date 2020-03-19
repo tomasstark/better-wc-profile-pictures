@@ -123,22 +123,24 @@ class My_Account {
 			$user_pictures->set_primary( $primary_picture_id );
 		}
 
+		$has_errors = false;
+
 		/**
 		 * If there were pictures added to file input, process upload.
 		 */
 		if ( ! empty( $picture_files['name'] ) ) {
 			$upload = Pictures_Controller::handle_upload( $picture_files, $user_pictures );
+
+			foreach ( $upload as $response ) {
+				if ( is_wp_error( $response ) ) {
+					$has_errors = true;
+
+					\wc_add_notice( $response->get_error_message(), 'error' );
+				}
+			}
 		}
 
-		if ( \is_wp_error( $upload ) ) {
-			/**
-			 * If upload failed, propagate upload method's error and add WooCommerce error notice.
-			 */
-			\wc_add_notice( $upload->get_error_message(), 'error' );
-		} else {
-			/**
-			 * On success, show success notice.
-			 */
+		if ( ! $has_errors ) {
 			\wc_add_notice( __( 'Pictures saved successfully.', 'bwcpp' ) );
 		}
 
