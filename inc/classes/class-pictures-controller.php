@@ -55,10 +55,10 @@ class Pictures_Controller {
 		 * Only allow image file types
 		 */
 		$allowed_file_types = array(
-			'jpg'   => 'image/jpg',
-			'jpg'   => 'image/jpeg',
-			'jpeg'  => 'image/jpeg',
-			'png'   => 'image/png',
+			'jpg'  => 'image/jpg',
+			'jpg'  => 'image/jpeg',
+			'jpeg' => 'image/jpeg',
+			'png'  => 'image/png',
 		);
 
 		/**
