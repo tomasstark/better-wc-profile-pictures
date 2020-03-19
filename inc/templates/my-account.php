@@ -16,20 +16,22 @@
 	$primary_picture = $user_pictures->get_primary();
 	?>
 
-	<fieldset>
-		<legend><?php _e( 'Choose your primary picture', 'bwcpp' ); ?></legend>
+	<?php if ( 0 < count( $pictures ) ) : ?>
+		<fieldset>
+			<legend><?php _e( 'Choose your primary picture', 'bwcpp' ); ?></legend>
 
-		<p><?php _e( 'Click to choose a picture, then click "Save Changes"', 'bwcpp' ); ?></p>
+			<p><?php _e( 'Click to choose a picture, then click "Save Changes"', 'bwcpp' ); ?></p>
 
-		<div class="bwcpp-pictures">
-			<?php foreach ( $pictures as $picture ) : ?>
-				<label>
-					<input type="radio" name="primary_picture" value="<?php echo $picture['id']; ?>" <?php checked( $primary_picture, $picture['id'] ); ?>>
-					<img src="<?php echo $picture['url']; ?>" alt="">
-				</label>
-			<?php endforeach; ?>
-		</div>
-	</fieldset>
+			<div class="bwcpp-pictures">
+				<?php foreach ( $pictures as $picture ) : ?>
+					<label>
+						<input type="radio" name="primary_picture" value="<?php echo $picture['id']; ?>" <?php checked( $primary_picture, $picture['id'] ); ?>>
+						<img src="<?php echo $picture['url']; ?>" alt="">
+					</label>
+				<?php endforeach; ?>
+			</div>
+		</fieldset>
+	<?php endif; ?>
 
 	<fieldset>
 		<legend><?php _e( 'Upload new pictures', 'bwcpp' ); ?></legend>
