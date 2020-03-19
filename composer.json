@@ -1,0 +1,20 @@
+{
+    "name": "tomasstark/better-woocommerce-profile-pictures",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Tomas Stark",
+            "email": "tom@tomstark.me"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
+        "squizlabs/php_codesniffer": "^3.5",
+        "wp-coding-standards/wpcs": "^2.2"
+    },
+    "scripts": {
+        "lint": "phpcs --standard=phpcs.xml.dist"
+    }
+}
