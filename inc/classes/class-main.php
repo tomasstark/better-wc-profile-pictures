@@ -85,7 +85,7 @@ class Main {
 
 		if ( is_numeric( $id_or_email ) ) {
 			$user = \get_user_by( 'id', (int) $id_or_email );
-		} else if ( is_object( $id_or_email ) ) {
+		} elseif ( is_object( $id_or_email ) ) {
 			$user_id = (int) $id_or_email->user_id;
 
 			if ( 0 !== $user_id ) {
