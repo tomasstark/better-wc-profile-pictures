@@ -14,13 +14,6 @@ namespace BWCPP;
  */
 class Main {
 	/**
-	 * WordPress option name for number of maximum pictures allowed per user.
-	 *
-	 * @var string Option name.
-	 */
-	public static $limit_pictures_option_name = 'bwcpp_max_pictures_per_user';
-
-	/**
 	 * Base part of REST route for all routes registered in this plugin.
 	 *
 	 * @var string Base route.
@@ -92,11 +85,19 @@ class Main {
 
 		if ( is_numeric( $id_or_email ) ) {
 			$user = \get_user_by( 'id', (int) $id_or_email );
+		} else if ( is_object( $id_or_email ) ) {
+			$user_id = (int) $id_or_email->user_id;
+
+			if ( 0 !== $user_id ) {
+				$user = \get_user_by( 'id', $user_id );
+			} else {
+				return $avatar;
+			}
 		} else {
-			$user = \get_user_by( 'email', (string) $id_or_email );
+			$user = \get_user_by( 'email', $id_or_email );
 		}
 
-		if ( ! $user ) {
+		if ( empty( $user ) ) {
 			return $avatar;
 		}
 

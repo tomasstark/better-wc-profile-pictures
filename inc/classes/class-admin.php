@@ -136,7 +136,7 @@ class Admin {
 		 */
 		\register_setting(
 			'bwcpp_settings',
-			Main::$limit_pictures_option_name,
+			BWCPP_LIMIT_OPTION_NAME,
 			array(
 				'type'              => 'integer',
 				'sanitize_callback' => 'intval',
@@ -148,14 +148,14 @@ class Admin {
 		 * Adds settings field for limit pictures setting.
 		 */
 		\add_settings_field(
-			Main::$limit_pictures_option_name,
+			BWCPP_LIMIT_OPTION_NAME,
 			__( 'Max pictures per user', 'bwcpp' ),
 			array( $this, 'render_max_control' ),
 			'bwcpp_settings',
 			'bwcpp_settings_general',
 			array(
-				'label_for'   => Main::$limit_pictures_option_name,
-				'id'          => Main::$limit_pictures_option_name,
+				'label_for'   => BWCPP_LIMIT_OPTION_NAME,
+				'id'          => BWCPP_LIMIT_OPTION_NAME,
 				'description' => __( 'Enter 0 for unlimited.', 'bwcpp' ),
 			)
 		);

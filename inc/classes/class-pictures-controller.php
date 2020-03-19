@@ -14,13 +14,6 @@ namespace BWCPP;
  */
 class Pictures_Controller {
 	/**
-	 * Post type used for pictures.
-	 *
-	 * @var string Post type.
-	 */
-	public static $post_type = 'attachment';
-
-	/**
 	 * Meta key used for making attachments link to user.
 	 *
 	 * @var string Meta key.
@@ -216,7 +209,7 @@ class Pictures_Controller {
 	 * @return int Maximum allowed number of profile pictures per user.
 	 */
 	public static function get_pictures_limit() {
-		return (int) \get_option( Main::$limit_pictures_option_name );
+		return (int) \get_option( BWCPP_LIMIT_OPTION_NAME );
 	}
 
 	/**
@@ -231,7 +224,7 @@ class Pictures_Controller {
 			return false;
 		}
 
-		if ( ! \metadata_exists( self::$post_type, $picture_id, self::$attachment_meta_key ) ) {
+		if ( ! \metadata_exists( BWCPP_PICTURE_POST_TYPE, $picture_id, self::$attachment_meta_key ) ) {
 			return false;
 		}
 

@@ -14,6 +14,8 @@
 namespace BWCPP;
 
 define( 'BWCPP_VERSION', '0.1' );
+define( 'BWCPP_PICTURE_POST_TYPE', 'attachment' );
+define( 'BWCPP_LIMIT_OPTION_NAME', 'bwcpp_max_pictures_per_user' );
 
 /**
  * Returns plugin URL. Useful for enqueuing assets on front end.
