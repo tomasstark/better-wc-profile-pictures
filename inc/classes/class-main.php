@@ -153,12 +153,25 @@ class Main {
 		/**
 		 * Calls `Pictures_Controller` to get all pictures by all users.
 		 */
-		$pictures = Pictures_Controller::get_pictures();
+		$pictures      = Pictures_Controller::get_pictures();
+		$rest_pictures = array();
+
+		foreach ( $pictures as $picture ) {
+			$url     = $picture['url'];
+			$user_id = \get_post_meta( $picture['id'], Pictures_Controller::$attachment_meta_key, true );
+
+			$rest_pictures[] = array(
+				'name' => basename( $url ),
+				'url'  => $url,
+				'type' => $picture['type'],
+				'user' => (int) $user_id,
+			);
+		}
 
 		/**
 		 * Returns through `rest_ensure_response` for properly formatted response.
 		 */
-		return rest_ensure_response( $pictures );
+		return rest_ensure_response( $rest_pictures );
 	}
 
 	/**
