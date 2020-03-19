@@ -155,7 +155,7 @@ class Pictures_Controller {
 	 */
 	public static function get_pictures( $user_id = null ) {
 		$args = array(
-			'post_type'      => 'attachment',
+			'post_type'      => BWCPP_PICTURE_POST_TYPE,
 			'posts_per_page' => -1,
 			'meta_query'     => array(),
 		);
@@ -196,7 +196,7 @@ class Pictures_Controller {
 	 * @return boolean|void FALSE on failure.
 	 */
 	public static function assign_picture_to_user( $picture_id, $user_id ) {
-		if ( 'attachment' !== \get_post_type( $picture_id ) ) {
+		if ( BWCPP_PICTURE_POST_TYPE !== \get_post_type( $picture_id ) ) {
 			return false;
 		}
 
@@ -220,15 +220,15 @@ class Pictures_Controller {
 	 * @return boolean|void Returns false if ID does not match any attachment or if attachment is not linked to any user.
 	 */
 	public static function remove_picture( $picture_id ) {
-		if ( 'attachment' !== \get_post_type( $picture_id ) ) {
+		if ( BWCPP_PICTURE_POST_TYPE !== \get_post_type( $picture_id ) ) {
 			return false;
 		}
 
-		if ( ! \metadata_exists( BWCPP_PICTURE_POST_TYPE, $picture_id, self::$attachment_meta_key ) ) {
+		if ( ! \metadata_exists( 'post', $picture_id, self::$attachment_meta_key ) ) {
 			return false;
 		}
 
-		\wp_delete_post( $picture_id, true );
+		\wp_delete_attachment( $picture_id, true );
 	}
 
 }
